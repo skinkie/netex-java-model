@@ -3,13 +3,13 @@
 # Downloads and extracts NetTex
 
 # Note. These are only default values. Change properties in pom file for changing config.
-: ${NETEX_REPO:="NeTEx"}
-: ${GITHUB_URL:="https://github.com/entur/$NETEX_REPO"}
+: ${OJP_REPO:="OJP"}
+: ${GITHUB_URL:="https://github.com/plannerstack/$OJP_REPO"}
 : ${GIT_BRANCH:="master"}
 : ${DESTINATION_PATH:="./profile"}
-: ${ZIP_PATH_TO_EXTRACT:="${NETEX_REPO}-${GIT_BRANCH}/xsd/*"}
+: ${ZIP_PATH_TO_EXTRACT:="${NETEX_REPO}-${GIT_BRANCH}/*"}
 
-echo "NETEX repo github URL: $GITHUB_URL Github branch: $GIT_BRANCH"
+echo "OJP repo github URL: $GITHUB_URL Github branch: $GIT_BRANCH"
 
 echo "Removing any existing contents in $DESTINATION_PATH"
 rm -rf ${DESTINATION_PATH}/*

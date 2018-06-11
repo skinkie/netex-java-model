@@ -15,13 +15,13 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.entur</groupId>
-    <artifactId>netex-java-model</artifactId>
-    <version>1.0.9-SNAPSHOT</version>
+    <groupId>com.bliksemlabs</groupId>
+    <artifactId>ojp-java-model</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
-    <name>netex-java-model</name>
-    <description>Generates Java model from NeTEx xsds using jaxb.</description>
-    <url>https://github.com/entur/netex-java-model</url>
+    <name>ojp-java-model</name>
+    <description>Generates Java model from OJP xsds using jaxb.</description>
+    <url>https://github.com/skinkie/ojp-java-model</url>
     <licenses>
         <license>
             <name>EUPL-1.2 with modifications</name>
@@ -32,18 +32,18 @@
 
     <developers>
         <developer>
-            <name>Erlend Nossum</name>
-            <email>erlend.nossum@entur.org</email>
-            <organization>Entur</organization>
-            <organizationUrl>http://www.entur.org</organizationUrl>
+            <name>Stefan de Konink</name>
+            <email>stefan@konink.de</email>
+            <organization>Bliksem Labs B.V.</organization>
+            <organizationUrl>http://www.bliksemlabs.com/</organizationUrl>
         </developer>
     </developers>
 
     <properties>
-        <netexRepoName>NeTEx</netexRepoName>
-        <netexBranch>master</netexBranch>
-        <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
-        <netexVersion>1.08</netexVersion>
+        <ojpRepoName>OJP</ojpRepoName>
+        <ojpBranch>master</ojpBranch>
+        <ojpGithubUrl>https://github.com/plannerstack/${ojpRepoName}</ojpGithubUrl>
+        <ojpVersion>2016</ojpVersion>
         <assertj.core.version>3.4.1</assertj.core.version>
         <junit.version>4.12</junit.version>
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
@@ -57,24 +57,26 @@
     </properties>
 
     <scm>
-        <connection>scm:git:ssh://git@github.com/entur/netex-java-model.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/entur/netex-java-model.git</developerConnection>
-        <url>https://github.com/entur/netex-java-model/tree/master</url>
-      <tag>HEAD</tag>
-  </scm>
+        <connection>scm:git:ssh://git@github.com/skinkie/ojp-java-model.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/skinkie/ojp-java-model.git</developerConnection>
+        <url>https://github.com/skinkie/ojp-java-model/tree/master</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <organization>
-        <name>Entur AS</name>
-        <url>http://www.entur.org/</url>
+        <name>Bliksem Labs B.V.</name>
+        <url>http://www.bliksemlabs.com/</url>
     </organization>
 
 
-    <distributionManagement>
+    <!--
+	<distributionManagement>
         <snapshotRepository>
             <id>Nexus</id>
             <url>https://nexus.rutebanken.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
+    -->
 
     <dependencies>
         <dependency>
@@ -141,12 +143,12 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <NETEX_REPO>${netexRepoName}</NETEX_REPO>
-                                <GIT_BRANCH>${netexBranch}</GIT_BRANCH>
-                                <GITHUB_URL>${netexGithubUrl}</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/${netexVersion}</DESTINATION_PATH>
+                                <NETEX_REPO>${ojpRepoName}</NETEX_REPO>
+                                <GIT_BRANCH>${ojpBranch}</GIT_BRANCH>
+                                <GITHUB_URL>${ojpGithubUrl}</GITHUB_URL>
+                                <DESTINATION_PATH>src/main/resources/xsd/${ojpVersion}</DESTINATION_PATH>
                             </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
+                            <executable>./bin/ojp-download-extract.sh</executable>
                         </configuration>
                     </execution>
                     <execution>
@@ -157,47 +159,11 @@
                         </goals>
                         <configuration>
                             <arguments>
-                                <argument>${netexVersion}</argument>
+                                <argument>${ojpVersion}</argument>
                             </arguments>
                             <executable>
                                 ./bin/version_updater.sh
                             </executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.07 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.07</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <NETEX_REPO>NeTEx-XML</NETEX_REPO>
-                                <GIT_BRANCH>1.07</GIT_BRANCH>
-                                <GITHUB_URL>https://github.com/entur/NeTEx-XML-deprecated</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.07</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.07/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.04beta for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.04beta</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <NETEX_REPO>NeTEx-XML</NETEX_REPO>
-                                <GIT_BRANCH>1.04beta</GIT_BRANCH>
-                                <GITHUB_URL>https://github.com/entur/NeTEx-XML-deprecated</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.04beta</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.04beta/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
                         </configuration>
                     </execution>
                     <execution>
@@ -208,7 +174,7 @@
                         </goals>
                         <configuration>
                             <arguments>
-                                <argument>${netexVersion}</argument>
+                                <argument>${ojpVersion}</argument>
                             </arguments>
                             <executable>./bin/annotation-replacer.sh</executable>
                         </configuration>
@@ -227,7 +193,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>generate-sources-for-netex</id>
+                        <id>generate-sources-for-ojp</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>xsdtojava</goal>
@@ -236,7 +202,7 @@
                             <xsdOptions>
                                 <xsdOption>
                                     <xsd>
-                                        ${basedir}/src/main/resources/xsd/${netexVersion}/NeTEx_publication.xsd
+                                        ${basedir}/src/main/resources/xsd/${ojpVersion}/OJP.xsd
                                     </xsd>
                                     <extension>true</extension>
                                     <bindingFile>bindings.xjb</bindingFile>
