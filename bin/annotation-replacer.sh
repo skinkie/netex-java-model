@@ -10,7 +10,7 @@ fi
 
 NETEX_VERSION=$1
 if [ -z $NETEX_VERSION ]; then
-    echo "USAGE: $0 <netex_version>"
+    echo "USAGE: $0 <ojp_version>"
     exit 1
 fi
 
